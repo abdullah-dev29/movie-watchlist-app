@@ -15,12 +15,12 @@ async function getSearchData() {
     return
   }
   const items = data.Search
-  const fullData = []
+  const itemsFullData = []
   for (const item of items) {
     const itemRes = await fetch(`http://www.omdbapi.com/?apikey=${API_KEY}&i=${item.imdbID}`)
     const itemDetails = await itemRes.json()
     fullData.push(itemDetails)
   }
 
-  console.log(fullData) // all complete items objects
+  console.log(itemsFullData) // all complete items objects
 }
