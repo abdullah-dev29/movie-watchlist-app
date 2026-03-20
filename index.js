@@ -10,10 +10,42 @@ async function handleBtnClick() {
   const data = await getSearchData()
   console.log(data)
   const html = getHtml(data)
-  console.log(html)
+  // console.log(html)
   searchResultEl.style.backgroundImage = "none"
   searchResultEl.style.backgroundColor = "#121212"
   searchResultEl.innerHTML = html
+  document.querySelectorAll(".watchlist").forEach(spanBtn => {
+    spanBtn.addEventListener("click", () => {
+      const imdbId = spanBtn.dataset.id
+      // getting existing data
+      let stored = JSON.parse(localStorage.getItem("watchlist"))
+      if(stored === null) {
+        stored = []
+      }
+
+      // checking duplicates
+      let alreadyExists = false
+      for(const storedFilm of stored) {
+        if(storedFilm.imdbID === imdbId) {
+          alreadyExists = true
+          break
+        }
+      }
+      // if no duplicate add it
+      if(!alreadyExists) {
+        for(const newFilm of data) {
+          if(newFilm.imdbID === imdbId) {
+            stored.push(newFilm)
+            break
+          }
+        }
+      }
+
+      // add item to localStorage
+      localStorage.setItem("watchlist", JSON.stringify(stored))
+
+    })
+  })
 
 }
 
@@ -64,7 +96,7 @@ function getHtml(data) {
             <div class="result-content--spans">
               <span>${item.Runtime}</span>
               <span>${item.Genre}</span>
-              <span class="watchlist" id="watchlist" data-title="${item.Title}">
+              <span class="watchlist" id="watchlist" data-id="${item.imdbID}">
                 <i class="fa-solid fa-circle-plus"></i>
                 Watchlist
               </span>
