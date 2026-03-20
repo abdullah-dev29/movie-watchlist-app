@@ -2,21 +2,18 @@ const API_KEY = "df9e8925"
 
 const searchInputEl = document.getElementById("search-input")
 const searchBtnEl = document.getElementById("search-btn")
-const searchResultEl = document.getElementById("search-results")
+const searchResultEl = document.getElementById("results")
 
 searchBtnEl.addEventListener("click", handleBtnClick)
 
 async function handleBtnClick() {
   const data = await getSearchData()
-  console.log(data)
   const html = getHtml(data)
-  // console.log(html)
-  searchResultEl.style.backgroundImage = "none"
-  searchResultEl.style.backgroundColor = "#121212"
   searchResultEl.innerHTML = html
   document.querySelectorAll(".watchlist").forEach(spanBtn => {
     spanBtn.addEventListener("click", () => {
       const imdbId = spanBtn.dataset.id
+      
       // getting existing data
       let stored = JSON.parse(localStorage.getItem("watchlist"))
       if(stored === null) {
@@ -72,7 +69,7 @@ function getHtml(data) {
   let html = ''
   if(typeof data === "string") {
     html =  `
-    <div class="no-results">
+    <div class="no-results no-results-search">
       <p>${data}</p>
     </div>
     `
@@ -111,3 +108,4 @@ function getHtml(data) {
   }
   return html
 }
+

@@ -67,6 +67,7 @@ function getWatchlistHtml (watchlist) {
             `
         })
     }
+    
     return html
 }
 
