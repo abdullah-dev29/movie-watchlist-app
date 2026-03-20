@@ -98,7 +98,7 @@ main {
 }
 
 .result-poster {
-  width: 120px;
+  max-width: 120px;
   flex-shrink: 0;
   aspect-ratio: 2 / 3; /* height of container modern approach no need to set height again in css*/
   /* height: calc(100px * 3/2); */ /*height of container older approach  need to modify calc() if we change width*/
@@ -136,6 +136,10 @@ main {
     gap: 0.5em;
     align-items: center;
     flex-wrap: wrap;
+}
+
+.watchlist {
+    cursor: pointer;
 }
 
 .result-content p {
@@ -260,7 +264,7 @@ main {
     }
 
     .result-poster {
-        width: 140px;
+        max-width: 140px;
     }
 
     .result {
