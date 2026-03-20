@@ -1,16 +1,31 @@
 function renderWatchlist() {
+    let stored = JSON.parse(localStorage.getItem("watchlist"))
+
     const searchResultEl = document.getElementById("results")
-    searchResultEl.style.backgroundImage = 'none'
-    searchResultEl.style.backgroundColor = '#121212'
-    const html = getWatchlistHtml()
-    console.log(html)
+    const html = getWatchlistHtml(stored)
+
     searchResultEl.innerHTML = html
+
+    // removing event listener after rendering
+    document.querySelectorAll(".remove").forEach(spanBtn => {
+    spanBtn.addEventListener("click", () =>{
+        const imdbId = spanBtn.dataset.id
+
+        // filtering out the remove item
+        const newStored = stored.filter(item => item.imdbID !== imdbId)
+
+        // updating the local storage
+        localStorage.setItem("watchlist", JSON.stringify(newStored))
+
+        // re-render
+        renderWatchlist()
+    })
+})
 }
 
-function getWatchlistHtml () {
-    let stored = JSON.parse(localStorage.getItem("watchlist"))
+function getWatchlistHtml (watchlist) {
     let html = ''
-    if(stored === null) {
+    if(!watchlist || watchlist.length === 0) {
         html = `
             <div class="no-results no-results-watchlist">
                 <p>Your watchlist is looking a little empty...</p>
@@ -21,7 +36,7 @@ function getWatchlistHtml () {
             </div>
         `
     } else {
-        stored.forEach(item => {
+        watchlist.forEach(item => {
             html += `
                 <div class="result">
 
